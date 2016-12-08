@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Radio Thermostat</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>Radio Thermostat</h1>
+    <p>The current temperature is: <b><%= temp %>&deg;F</b></p>
+    <p>Thermostat is set to <b><%= t_temp %>&deg;F</b></p>
+    <p>Thermostat operating mode: <b><%= tmode %></b></p>
+    <p>Fan operating mode: <b><%= fmode %></b></p>
+    <p>Target temperature Hold status: <b><%= hold %></b></p>
+    <p>HVAC operating state: <b><%= tstate %></b></p>
+    <p>Thermostat time currently <b><%= time %></b></p>
+    <p>Target temperature POST type: <b><%= t_type_post %></b></p>
   </body>
 </html>
