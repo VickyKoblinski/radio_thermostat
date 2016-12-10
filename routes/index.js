@@ -1,31 +1,31 @@
-var express = require('express');
-var request = require('request');
-var address = require('../private/address');
-var router = express.Router();
+const express = require('express');
+const request = require('request');
+const address = require('../private/address');
+const router = express.Router();
 
 /* GET radio thermostat listing. */
-router.get('/', function(req, res, next) {
-  request(address+'/tstat/', function(error, response, body){
+router.get('/', (req, res, next) =>
+  request(address+'/tstat/', (error, response, body) => {
     if(!error && response.statusCode == 200){
-      var tstat = JSON.parse(body);
-      var t_temp = tstat.t_heat ? tstat.t_heat : tstat.t_cool;
-      var tmode = ['OFF', 'HEAT', 'COOL', 'AUTO'];
-      var fmode = ['AUTO', 'AUTO/CIRCULATE', 'ON'];
-      var override = ['DISABLED', 'ENABLED'];
-      var hold = ['DISABLED', 'ENABLED'];
-      var tstate = ['OFF', 'HEAT', 'COOL'];
-      var time = dateToString(tstat.time);
-      var t_type_post = ['TEMPORARY', 'ABSOLUTE', 'UNKOWN'];
+      const TSTAT = JSON.parse(body);
+      const T_TEMP = TSTAT.t_heat ? TSTAT.t_heat : TSTAT.t_cool;
+      const TMODE = ['OFF', 'HEAT', 'COOL', 'AUTO'];
+      const FMODE = ['AUTO', 'AUTO/CIRCULATE', 'ON'];
+      const OVERRIDE = ['DISABLED', 'ENABLED'];
+      const HOLD = ['DISABLED', 'ENABLED'];
+      const TSTATE = ['OFF', 'HEAT', 'COOL'];
+      const TIME = _dateToString(TSTAT.time);
+      const T_TYPE_POST = ['TEMPORARY', 'ABSOLUTE', 'UNKOWN'];
 
-      res.render('index', { temp: tstat.temp,
-                            t_temp: t_temp,
-                            tmode: tmode[tstat.tmode],
-                            fmode: fmode[tstat.fmode],
-                            override: override[tstat.override],
-                            hold: hold[tstat.hold],
-                            tstate: tstate[tstat.tstate],
-                            time: time,
-                            t_type_post: t_type_post[tstat.t_type_post]
+      res.render('index', { temp: TSTAT.temp,
+                            t_temp: T_TEMP,
+                            tmode: TMODE[TSTAT.tmode],
+                            fmode: FMODE[TSTAT.fmode],
+                            override: OVERRIDE[TSTAT.override],
+                            hold: HOLD[TSTAT.hold],
+                            tstate: TSTATE[TSTAT.tstate],
+                            time: TIME,
+                            t_type_post: T_TYPE_POST[TSTAT.t_type_post]
                           }
               );
     } else {
@@ -33,18 +33,18 @@ router.get('/', function(req, res, next) {
     }
   })
 
-});
+);
 
 
-function dateToString(date){
-  var day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  var am_pm = date.hour > 12 ? 'pm' : 'am'; 
-  var hour = date.hour > 12 ? date.hour-12 : date.hour;
-  var minute = date.minute;
+function _dateToString(DATE){
+  const DAY = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const AM_PM = DATE.hour > 12 ? 'pm' : 'am'; 
+  const HOUR = DATE.hour > 12 ? DATE.hour-12 : DATE.hour;
+  const MINUTE = DATE.minute;
 
-  var str = day[date.day] + ' ' + hour + ':' + minute + am_pm;
+  const STR = `${DAY[DATE.day]} ${HOUR}:${MINUTE}${AM_PM}`;
 
-  return str;
+  return STR;
 }
 
 module.exports = router;
