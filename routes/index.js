@@ -2,12 +2,13 @@ const express = require('express');
 const request = require('request');
 const address = require('../private/address');
 const router = express.Router();
+const TSTAT = require('../lib/tstat.js');
 
 /* GET radio thermostat listing. */
-router.get('/', (req, res, next) =>
-  request(address+'/tstat/', (error, response, body) => {
-    if(!error && response.statusCode == 200){
-      const TSTAT = JSON.parse(body);
+router.get('/', (req, res, next) => {
+//  request(address+'/tstat/', (error, response, body) => {
+//    if(!error && response.statusCode == 200){
+//      const TSTAT = JSON.parse(body);
       const T_TEMP = TSTAT.t_heat ? TSTAT.t_heat : TSTAT.t_cool;
       const TMODE = ['OFF', 'HEAT', 'COOL', 'AUTO'];
       const FMODE = ['AUTO', 'AUTO/CIRCULATE', 'ON'];
@@ -28,11 +29,11 @@ router.get('/', (req, res, next) =>
                             t_type_post: T_TYPE_POST[TSTAT.t_type_post]
                           }
               );
-    } else {
-      res.send('oops, lol.');
-    }
-  })
-
+//    } else {
+//      res.send('oops, lol.');
+//    }
+//  })
+}
 );
 
 
@@ -40,7 +41,7 @@ function _dateToString(DATE){
   const DAY = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const AM_PM = DATE.hour > 12 ? 'pm' : 'am'; 
   const HOUR = DATE.hour > 12 ? DATE.hour-12 : DATE.hour;
-  const MINUTE = DATE.minute;
+  const MINUTE = DATE.minute > 10 ?  `0${DATE.minute}` : DATE.minute;
 
   const STR = `${DAY[DATE.day]} ${HOUR}:${MINUTE}${AM_PM}`;
 
