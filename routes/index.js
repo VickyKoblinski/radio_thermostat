@@ -34,7 +34,7 @@ function _dateToString(DATE){
   const DAY = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const AM_PM = DATE.hour > 12 ? 'pm' : 'am'; 
   const HOUR = DATE.hour > 12 ? DATE.hour-12 : DATE.hour;
-  const MINUTE = DATE.minute > 10 ?  `0${DATE.minute}` : DATE.minute;
+  const MINUTE = DATE.minute < 10 ?  `0${DATE.minute}` : DATE.minute;
 
   const STR = `${DAY[DATE.day]} ${HOUR}:${MINUTE}${AM_PM}`;
 
