@@ -1,18 +1,21 @@
 const express = require('express');
 const request = require('request');
 const router = express.Router();
-const TSTAT = require('../lib/tstat.js');
+const fs = require('fs');
+
 
 /* GET radio thermostat listing. */
 router.get('/', (req, res, next) => {
-  const T_TEMP = TSTAT.t_heat ? TSTAT.t_heat : TSTAT.t_cool;
-  const TMODE = ['OFF', 'HEAT', 'COOL', 'AUTO'];
-  const FMODE = ['AUTO', 'AUTO/CIRCULATE', 'ON'];
-  const OVERRIDE = ['DISABLED', 'ENABLED'];
-  const HOLD = ['DISABLED', 'ENABLED'];
-  const TSTATE = ['OFF', 'HEAT', 'COOL'];
-  const TIME = _dateToString(TSTAT.time);
-  const T_TYPE_POST = ['TEMPORARY', 'ABSOLUTE', 'UNKOWN'];
+
+  var TSTAT = JSON.parse(fs.readFileSync('private/tstat.json', 'utf8'));
+  var T_TEMP = TSTAT.t_heat ? TSTAT.t_heat : TSTAT.t_cool;
+  var TMODE = ['OFF', 'HEAT', 'COOL', 'AUTO'];
+  var FMODE = ['AUTO', 'AUTO/CIRCULATE', 'ON'];
+  var OVERRIDE = ['DISABLED', 'ENABLED'];
+  var HOLD = ['DISABLED', 'ENABLED'];
+  var TSTATE = ['OFF', 'HEAT', 'COOL'];
+  var TIME = _dateToString(TSTAT.time);
+  var T_TYPE_POST = ['TEMPORARY', 'ABSOLUTE', 'UNKOWN'];
 
   res.render('index', {
     temp: TSTAT.temp,
