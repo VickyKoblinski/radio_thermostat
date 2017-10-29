@@ -1,0 +1,93 @@
+body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    background-color: #282828;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    overflow:hidden;
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.sidenav .closebtn-header{
+    position: absolute;
+    top: 0;
+    /*left: 25px;*/
+    font-size: 26px;
+    /*margin-right: 50px;*/
+    color: white;
+    white-space: nowrap;
+    padding: 16px 100% 8px 8px;
+    display: block;
+    transition: 0.3s;
+    background-color: #111;
+}
+
+
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+
+
+
+}
+
+
+/***** Flex *****/
+.sidenav .flex-container{
+    color:rgb(206, 206, 206);
+    margin: 20px 10px;
+    font-size: 19px;
+}
+
+.sidenav .flex-container .flex-item{
+    display:flex;
+    justify-content: space-between;
+
+    min-width: 300px;
+    margin: 15px 0;
+    background-color: rgba(51, 51, 51, 0.89);;
+    border-radius: 7px;
+}
+
+.sidenav .flex-container .flex-item .item-label{
+    margin: auto 10px;
+}
+
+.sidenav .flex-container .flex-item .btn-group{
+    min-width: 115px;
+}
+
+.sidenav .flex-container .btn-block{
+    margin:20px 0;
+
+}

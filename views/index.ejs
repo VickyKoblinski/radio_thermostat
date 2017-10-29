@@ -1,18 +1,165 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-  <head>
-    <title>Radio Thermostat</title>
-    <link rel='stylesheet' href='/stylesheets/style.min.css' />
-  </head>
-  <body>
-    <h1>Radio Thermostat</h1>
+
+<head>
+
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <link rel="stylesheet" href="stylesheets/sidebar.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="javascript/sidebar.js"></script>
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,  initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Radio Thermostat</title>
+</head>
+
+<body>
+
+  <div id="mySidenav" class="sidenav">
+
+    <span class="closebtn-header">Lights 💡</span>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+    <div class="flex-container">
+      <div class="flex-item">
+        <span class="item-label">Computer Room</span>
+        <span class="btn-group">
+        <button type="button" class="btn btn-success btn-lg" onclick="x10(10,'on')">On</button>
+        <button type="button" class="btn btn-danger btn-lg" onclick="x10(10,'off')">Off</button>
+      </span>
+      </div>
+
+      <div class="flex-item">
+        <span class="item-label">Living Room</span>
+
+        <span class="btn-group">
+        <button type="button" class="btn btn-success btn-lg" onclick="x10(11,'on')">On</button>
+        <button type="button" class="btn btn-danger btn-lg" onclick="x10(11,'off')">Off</button>
+      </span>
+      </div>
+
+      <div class="flex-item">
+        <span class="item-label">LED</span>
+
+        <span class="btn-group">
+        <button type="button" class="btn btn-success btn-lg" onclick="httpGet('temp/sonoff2ON')">On</button>
+        <button type="button" class="btn btn-danger btn-lg" onclick="httpGet('temp/sonoff2OFF')">Off</button>
+      </span>
+      </div>
+
+      <button type="submit" class="btn btn-danger btn-block btn-lg" onclick="allOff([10,11,12])">All Off</button>
+    </div>
+
+
+
+  </div>
+
+
+
+  <div style="margin-bottom:20px;background-color:#337ab7; padding:0px 30px;color:white;border-bottom: 7px solid #2e6da4"><span h2 style="cursor:pointer;font-size:30px;margin-bottom:20px;" onclick="openNav()">&#9776; <span style="font-size:25px">Lights</span></span>
+  </div>
+
+
+
+  <div class="container" id="main">
+
+
     <p>The current temperature is: <b><%= temp %>&deg;F</b></p>
     <p>Thermostat is set to <b><%= t_temp %>&deg;F</b></p>
-    <p>Thermostat operating mode: <b><%= tmode %></b></p>
-    <p>Fan operating mode: <b><%= fmode %></b></p>
-    <p>Target temperature Hold status: <b><%= hold %></b></p>
-    <p>HVAC operating state: <b><%= tstate %></b></p>
-    <p>Thermostat time currently <b><%= time %></b></p>
-    <p>Target temperature POST type: <b><%= t_type_post %></b></p>
-  </body>
+
+    <form method="POST">
+
+      <ul class="list-group">
+        <li class="list-group-item">
+
+
+          <label for="sel1">Set Temperature:</label>
+          <select class="form-control" id="sel1" name="settemp">
+            <option value="default" disabled>Don't change</option>
+            <option value="50" <%= t_temp == 50 ? 'selected' : '' %>>50&deg;F</option>
+            <option value="62" <%= t_temp == 62 ? 'selected' : '' %>>62&deg;F</option>
+            <option value="69" <%= t_temp == 69 ? 'selected' : '' %>>69&deg;F</option>
+            <option value="72" <%= t_temp == 72 ? 'selected' : '' %>>72&deg;F</option>
+          </select>
+
+        </li>
+        <li class="list-group-item">
+
+          <p>Thermostat operating mode: <b><%= tmode %></b></p>
+
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary <%= tmode == 'OFF' ? 'active' : '' %>">
+              <input type="radio" name="tmode" id="tmode_off" autocomplete="off" value=0 <%= tmode == 'OFF' ? 'checked' : '' %>> Off
+            </label>
+            <label class="btn btn-primary <%= tmode == 'HEAT' ? 'active' : '' %>">
+              <input type="radio" name="tmode" id="tmode_heat" autocomplete="off" value=1 <%= tmode == 'HEAT' ? 'checked' : '' %>> Heat
+            </label>
+            <label class="btn btn-primary <%= tmode == 'COOL' ? 'active' : '' %>">
+              <input type="radio" name="tmode" id="tmode_cool" autocomplete="off" value=2 <%= tmode == 'COOL' ? 'checked' : '' %>> Cool
+            </label>
+          </div>
+
+        </li>
+        <li class="list-group-item">
+
+          <p>Fan operating mode: <b><%= fmode %></b></p>
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary <%= fmode == 'AUTO' ? 'active' : '' %>">
+              <input type="radio" name="fmode" id="fmode_auto" autocomplete="off" value=0 <%= fmode == 'AUTO' ? 'checked' : '' %>> Auto
+            </label>
+            <label class="btn btn-primary <%= fmode == 'AUTO/CIRCULATE' ? 'active' : '' %>">
+              <input type="radio" name="fmode" id="fmode_auto_circulate" autocomplete="off" value=1 <%= fmode == 'AUTO/CIRCULATE' ? 'checked' : '' %>> Auto/Circulate
+            </label>
+            <label class="btn btn-primary <%= fmode == 'ON' ? 'active' : '' %>">
+              <input type="radio" name="fmode" id="fmode_on" autocomplete="off" value=2 <%= fmode == 'ON' ? 'checked' : '' %>> On
+            </label>
+          </div>
+
+        </li>
+        <li class="list-group-item">
+          <p>Target temperature Hold status: <b><%= hold %></b></p>
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary <%= hold == 'DISABLED' ? 'active' : '' %>">
+              <input type="radio" name="hold" id="hold_disabled" autocomplete="off" value=0 <%= hold == 'DISABLED' ? 'checked' : '' %>> Disable
+            </label>
+            <label class="btn btn-primary <%= hold == 'ENABLED' ? 'active' : '' %>">
+              <input type="radio" name="hold" id="hold_enabled" autocomplete="off" value=1 <%= hold == 'ENABLED' ? 'checked' : '' %>> Enable
+            </label>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <p>HVAC operating state: <b><%= tstate %></b></p>
+        </li>
+        <li class="list-group-item">
+
+          <p>Thermostat time currently <b><%= time %></b></p>
+        </li>
+        <li class="list-group-item">
+          <p>Target temperature POST type: <b><%= t_type_post %></b></p>
+        </li>
+
+
+
+
+      </ul>
+
+      <button type="submit" class="btn btn-primary btn-block btn-lg">Submit</button>
+    </form>
+
+
+    <!---->
+    <br>
+
+  </div>
+
+
+
+
+
+
+</body>
+
 </html>
