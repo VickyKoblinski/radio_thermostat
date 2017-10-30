@@ -1,5 +1,9 @@
-#Radio Thermostat Web Interface
+# Radio Thermostat Web Interface
 
-a .env file should be created with the folloing values
+A simple web interface to control a Radio Thermostat CT50. Also provides some support for SONOFF and X10 home automation modules.
+
+a ```.env``` file should be created in the application base directory with the follwing values:
+```
 SONOFF_API_KEY={key value}
 BASE_URL={application base url}
+```
