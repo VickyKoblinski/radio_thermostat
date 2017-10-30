@@ -120,7 +120,7 @@ router.post('/', (req, res) => {
 
       RadioThermostat.setData(newData);
       res.send(
-        `<meta http-equiv="refresh" content="0;URL='${process.env.REFRESH_URL}'" /> `
+        `<meta http-equiv="refresh" content="0;URL='${process.env.BASE_URL}'" /> `
       );
     }
   );
