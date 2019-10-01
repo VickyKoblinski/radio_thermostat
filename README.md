@@ -2,6 +2,8 @@
 
 A simple web interface to control a Radio Thermostat CT50. Also provides some support for SONOFF and X10 home automation modules.
 
+NO WARRANTY EXPRESSED OR IMPLIED!
+
 ![Radio Thermostat Interface](https://raw.githubusercontent.com/VickyKoblinski/radio_thermostat/master/docs/RadioThermostatInterface.gif "Radio Thermostat Interface")
 
 a ```.env``` file should be created in the application base directory with the follwing values:
